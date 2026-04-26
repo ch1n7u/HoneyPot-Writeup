@@ -1,4 +1,4 @@
-# I Opened 60,000 Ports on AWS… Here's What Hit My Honeypot
+# I Opened 60,000 Ports on AWS… Here's What I Did Next
  
 ## Introduction
 
