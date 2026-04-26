@@ -1,5 +1,11 @@
-# I Opened 60,000 Ports on AWS… Here's What I Did
- 
+![[th.png]]
+## 🚨 What Happens When You Open 60,000 Ports?
+
+Within minutes of exposing 60,000 ports on a public AWS instance, the system began receiving connection attempts from across the globe.
+
+No announcements. No targeting. Just pure internet noise.
+
+This writeup documents how I deployed a T-Pot honeypot on AWS and what it revealed about real-world attack behavior.
 ## Introduction
 
 If you want to learn how real-world attacks look without putting production systems at risk, a honeypot lab is a great way to do it. A honeypot is a deliberately exposed system or service designed to attract and record malicious activity.
@@ -176,12 +182,20 @@ If these checks look good, the platform is ready for web access.
 
 ## Accessing the Web UI
 
-Open this URL in your browser:
-https://AWS_PUBLIC_IP:64297
+Open this URL in your browser: https://AWS_PUBLIC_IP:64297
 
 Log in with the credentials created during setup. The dashboard gives you a quick operational view of your honeypots and incoming activity. In Kibana views, you can filter by source IP, destination port, time range, and event type to start basic log analysis.
 	
 ![T-Pot web UI login and dashboard screen](images/tpot-web-ui-login-dashboard.png)
+
+## Sample Attack Observations
+
+Below are examples of activity captured by the honeypot:
+
+- Repeated SSH brute-force attempts
+- Port scanning across large ranges
+- Automated exploit probes targeting known services
+
 
 ## Security Considerations
 
@@ -197,6 +211,13 @@ Log in with the credentials created during setup. The dashboard gives you a quic
 - You can still be charged for extra EBS storage, outbound data transfer, Elastic IP usage patterns, or traffic spikes.
 - Monitor billing and set AWS Budgets alerts before exposing large port ranges.
 
+## Lessons Learned
+
+• Never expose unnecessary ports in production environments  
+• Internet-wide scanning is constant and automated  
+• Even a basic honeypot can capture valuable threat intelligence  
+• Proper monitoring is essential when exposing services  
+• Cloud environments amplify both visibility and risk  
 ## Troubleshooting:
 
 ### SSH connection fails
@@ -236,6 +257,17 @@ docker ps
 - Check that port **64297** is open in security groups.
 - Wait a few minutes after reboot or service startup for all containers to initialize.
 
+## Key Findings
+
+• Automated scanners begin probing exposed systems within minutes  
+• Common ports like SSH (22), HTTP (80), and SMB (445) are heavily targeted  
+• Most traffic originates from botnets, not manual attackers  
+• Attack patterns are repetitive and tool-driven  
+• Even low-resource cloud instances receive significant unsolicited traffic  
 ## Conclusion
 
-You now have a working AWS-hosted T-Pot honeypot lab with web-based visibility into incoming attack traffic. A good next step is to spend time in Kibana building simple filters and dashboards, then track trends like top source IPs, most targeted ports, and daily event volume.
+A sincere thank you to the team at Deutsche Telekom Security for developing and maintaining :contentReference—an outstanding all-in-one honeypot platform for real-world attack analysis.
+
+Your work has made it significantly easier for security researchers and enthusiasts to deploy, monitor, and study live cyber threats in a controlled environment.
+
+🔗 Original Repository: https://github.com/telekom-security/tpotce
